@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "Itunes List"
 include(":app")
 include(":core")
+include(":ui")
