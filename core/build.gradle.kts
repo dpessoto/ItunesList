@@ -1,21 +1,16 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 }
 
 android {
-    namespace = "com.pessoto.ituneslist"
+    namespace = "com.pessoto.ituneslist.core"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.pessoto.ituneslist"
-        minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -25,11 +20,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "BASE_URL_API", "\"https://itunes.apple.com/\"")
         }
 
         debug {
             isMinifyEnabled = false
-            isDebuggable = true
+            buildConfigField("String", "BASE_URL_API", "\"https://itunes.apple.com/\"")
         }
     }
     compileOptions {
@@ -39,31 +35,22 @@ android {
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
     }
-    buildFeatures {
-        compose = true
-        buildConfig = true
-    }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtensionVersion.get()
     }
-
-    testOptions {
-        animationsDisabled = true
-        unitTests.isReturnDefaultValues = true
-        unitTests.isIncludeAndroidResources = true
+    buildFeatures {
+        buildConfig = true
+        compose = true
     }
 }
 
 dependencies {
+    api(platform(libs.androidx.compose.bom))
+    api(libs.androidx.compose.ui)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.navigation)
-    implementation(libs.koin.android)
+    implementation(libs.androidx.startup.runtime)
     implementation(libs.koin.core)
-
-    implementation(project(":core"))
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.okhttp.logging.interceptor)
 }
