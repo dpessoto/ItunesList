@@ -5,7 +5,7 @@ import com.pessoto.ituneslist.feature.albumslist.domain.repository.AlbumsReposit
 import kotlinx.coroutines.flow.Flow
 
 internal class FetchAlbumsUseCaseImpl(
-    val repository: AlbumsRepository
+    private val repository: AlbumsRepository
 ) : FetchAlbumsUseCase {
 
     override fun invoke(limit: Int): Flow<List<Album>> {
