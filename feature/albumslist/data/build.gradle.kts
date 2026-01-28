@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.pessoto.ituneslist.feature.albums.data"
+    namespace = "com.pessoto.ituneslist.feature.albumslist.data"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -40,8 +40,6 @@ dependencies {
     implementation(libs.androidx.startup.runtime)
     implementation(libs.koin.core)
     implementation(libs.retrofit)
-    implementation(libs.retrofit.gson)
-    implementation(libs.okhttp.logging.interceptor)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.coroutines)
 

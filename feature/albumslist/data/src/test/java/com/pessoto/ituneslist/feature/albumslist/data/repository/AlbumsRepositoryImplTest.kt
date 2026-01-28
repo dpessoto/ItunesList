@@ -54,7 +54,7 @@ internal class AlbumsRepositoryImplTest {
         )
         val mapped = Album(
             id = "1",
-            name = "Album 1",
+            albumName = "Album 1",
             artist = "Artist 1",
             imageUrl = "https://image1.url"
         )

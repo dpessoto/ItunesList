@@ -1,10 +1,16 @@
 package com.pessoto.ituneslist.ui.theme
 
+import android.content.Context
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import com.pessoto.ituneslist.ui.di.uiModule
+import org.koin.compose.KoinApplicationPreview
+import org.koin.core.module.Module
+import org.koin.dsl.module
 
 private val DarkColorScheme = darkColorScheme(
     primary = DarkPrimary,
@@ -86,3 +92,23 @@ fun ItunesListTheme(
         content = content
     )
 }
+
+@Composable
+fun ItunesListThemePreview(
+    module: Module = module {},
+    content: @Composable (Context) -> Unit
+) {
+    val context = LocalContext.current
+    KoinApplicationPreview(application = {
+        modules(
+            uiModule,
+            module { single { context } },
+            module,
+        )
+    }) {
+        ItunesListTheme {
+            content(context)
+        }
+    }
+}
+

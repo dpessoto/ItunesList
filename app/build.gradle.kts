@@ -68,4 +68,6 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":ui"))
     implementation(project(":resources"))
+    implementation(project(":navigation"))
+    implementation(project(":feature:albumslist:presentation"))
 }

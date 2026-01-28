@@ -47,10 +47,11 @@ android {
 dependencies {
     api(platform(libs.androidx.compose.bom))
     api(libs.androidx.compose.ui)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.converter)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.startup.runtime)
     implementation(libs.koin.core)
     implementation(libs.retrofit)
-    implementation(libs.retrofit.gson)
     implementation(libs.okhttp.logging.interceptor)
 }

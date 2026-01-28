@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.koin.android)
 
     implementation(project(":core"))
+    implementation(project(":resources"))
 
     debugApi(libs.androidx.compose.ui.tooling.preview)
     debugApi(libs.androidx.compose.ui.tooling)
