@@ -1,6 +1,8 @@
 package com.pessoto.ituneslist.feature.albumslist.data.mapper
 
 import com.pessoto.ituneslist.feature.albumslist.data.model.AlbumEntryDto
+import com.pessoto.ituneslist.feature.albumslist.data.model.CategoryAttributesDto
+import com.pessoto.ituneslist.feature.albumslist.data.model.CategoryDto
 import com.pessoto.ituneslist.feature.albumslist.data.model.IdAttributesDto
 import com.pessoto.ituneslist.feature.albumslist.data.model.IdDto
 import com.pessoto.ituneslist.feature.albumslist.data.model.ImageDto
@@ -22,9 +24,10 @@ internal class AlbumMapperTest {
                 ),
                 name = LabelDto(value = "Album 1"),
                 artist = LabelDto(value = "Artist 1"),
-                images = listOf(
-                    ImageDto(url = "https://image1.url")
-                )
+                images = listOf(ImageDto(url = "https://image1.url")),
+                price = LabelDto("$9.99"),
+                releaseDate = LabelDto("2026-01-23T00:00:00-07:00"),
+                category = CategoryDto(CategoryAttributesDto("Heavy Metal")),
             ),
             AlbumEntryDto(
                 id = IdDto(
@@ -32,9 +35,10 @@ internal class AlbumMapperTest {
                 ),
                 name = LabelDto(value = "Album 2"),
                 artist = LabelDto(value = "Artist 2"),
-                images = listOf(
-                    ImageDto(url = "https://image2.url")
-                )
+                images = listOf(ImageDto(url = "https://image2.url")),
+                price = LabelDto("$9.99"),
+                releaseDate = LabelDto("2026-01-23T00:00:00-07:00"),
+                category = CategoryDto(CategoryAttributesDto("Heavy Metal")),
             )
         )
 
@@ -43,13 +47,19 @@ internal class AlbumMapperTest {
                 id = "1",
                 albumName = "Album 1",
                 artist = "Artist 1",
-                imageUrl = "https://image1.url"
+                images = listOf("https://image1.url"),
+                price = "$9.99",
+                releaseDate = "Jan 23, 2026",
+                genre = "Heavy Metal"
             ),
             Album(
                 id = "2",
                 albumName = "Album 2",
                 artist = "Artist 2",
-                imageUrl = "https://image2.url"
+                images = listOf("https://image2.url"),
+                price = "$9.99",
+                releaseDate = "Jan 23, 2026",
+                genre = "Heavy Metal"
             )
         )
 
@@ -66,14 +76,20 @@ internal class AlbumMapperTest {
             ),
             name = LabelDto(value = "Album 3"),
             artist = LabelDto(value = "Artist 3"),
-            images = emptyList()
+            images = emptyList(),
+            price = LabelDto("$9.99"),
+            releaseDate = LabelDto("2026-01-23T00:00:00-07:00"),
+            category = CategoryDto(CategoryAttributesDto("Heavy Metal")),
         )
 
         val expected = Album(
             id = "3",
             albumName = "Album 3",
             artist = "Artist 3",
-            imageUrl = ""
+            images = emptyList(),
+            price = "$9.99",
+            releaseDate = "Jan 23, 2026",
+            genre = "Heavy Metal"
         )
 
         val result = mapper.map(dto)

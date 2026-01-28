@@ -1,11 +1,11 @@
 package com.pessoto.ituneslist.feature.albumslist.domain.entity
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class Album(
     val id: String,
     val albumName: String,
     val artist: String,
-    val imageUrl: String
+    val images: List<String>,
+    val price: String,
+    val releaseDate: String,
+    val genre: String
 )

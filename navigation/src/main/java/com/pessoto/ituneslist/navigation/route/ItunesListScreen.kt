@@ -10,5 +10,13 @@ sealed class ItunesListScreen {
     object AlbumsList : ItunesListScreen()
 
     @Serializable
-    data class AlbumDetails(val album: Album) : ItunesListScreen()
+    data class AlbumDetail(
+        val id: String,
+        val albumName: String,
+        val artist: String,
+        val image: String,
+        val price: String,
+        val releaseDate: String,
+        val genre: String
+    ) : ItunesListScreen()
 }

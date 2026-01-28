@@ -9,4 +9,7 @@ data class AlbumEntryDto(
     @SerialName("im:name") val name: LabelDto,
     @SerialName("im:artist") val artist: LabelDto,
     @SerialName("im:image") val images: List<ImageDto>,
+    @SerialName("im:price") val price: LabelDto,
+    @SerialName("im:releaseDate") val releaseDate: LabelDto,
+    @SerialName("category") val category: CategoryDto
 )

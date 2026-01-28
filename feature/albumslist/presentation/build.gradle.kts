@@ -51,7 +51,7 @@ dependencies {
     implementation(project(":ui"))
     implementation(project(":resources"))
     implementation(project(":navigation"))
-    implementation(project(":feature:albumslist:domain"))
+    api(project(":feature:albumslist:domain"))
     implementation(project(":feature:albumslist:data"))
 
     testImplementation(libs.mockk)

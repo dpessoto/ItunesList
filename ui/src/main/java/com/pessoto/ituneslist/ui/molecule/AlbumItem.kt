@@ -29,6 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pessoto.ituneslist.resources.R
 import com.pessoto.ituneslist.ui.atom.BoxSkeleton
+import com.pessoto.ituneslist.ui.atom.IconTextArguments
+import com.pessoto.ituneslist.ui.atom.ItunesListIconText
 import com.pessoto.ituneslist.ui.atom.SubcomposeAsyncImageCache
 import com.pessoto.ituneslist.ui.theme.CornerShape
 import com.pessoto.ituneslist.ui.theme.DefaultContentPadding
@@ -54,7 +56,7 @@ fun AlbumItem(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { arguments.onClick },
+            .clickable { arguments.onClick() },
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
@@ -99,34 +101,23 @@ fun AlbumItem(
             }
             Spacer(modifier = Modifier.width(Spacing.Small))
             Column(modifier = Modifier.weight(1f)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_book_24),
+                ItunesListIconText(
+                    arguments = IconTextArguments(
+                        text = arguments.artist,
+                        iconRes = R.drawable.ic_book_24,
                         contentDescription = null,
-                        tint = Color.Black
+                        textStyle = MaterialTheme.typography.titleMedium,
                     )
-                    Spacer(modifier = Modifier.width(Spacing.Mini))
-                    Text(
-                        text = arguments.albumName.content().orEmpty(),
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.weight(1f)
-                    )
-                }
+                )
                 Spacer(modifier = Modifier.height(Spacing.Small))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        modifier = Modifier.size(24.dp),
-                        painter = painterResource(id = R.drawable.ic_person_24),
+                ItunesListIconText(
+                    arguments = IconTextArguments(
+                        text = arguments.artist,
+                        iconRes = R.drawable.ic_person_24,
                         contentDescription = null,
-                        tint = Color.Black
+                        textStyle = MaterialTheme.typography.bodyMedium,
                     )
-                    Spacer(modifier = Modifier.width(Spacing.Mini))
-                    Text(
-                        text = arguments.artist.content().orEmpty(),
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.weight(1f)
-                    )
-                }
+                )
             }
             Spacer(modifier = Modifier.width(Spacing.Small))
             Icon(

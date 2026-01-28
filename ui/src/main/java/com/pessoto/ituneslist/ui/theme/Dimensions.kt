@@ -29,3 +29,8 @@ object CornerShape {
 object Elevation {
     val Tiny = 2.dp
 }
+
+object Components {
+    val Large = 24.dp
+    val Extra = 40.dp
+}

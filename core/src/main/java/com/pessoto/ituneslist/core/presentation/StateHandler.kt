@@ -2,32 +2,38 @@ package com.pessoto.ituneslist.core.presentation
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class StateHandlerDelegate<ViewState, Event>(
-    initialState: ViewState
+    private val initialState: ViewState
 ) : StateHandler<ViewState, Event> {
     private lateinit var viewModelScope: CoroutineScope
 
-    private val _viewState = MutableStateFlow(initialState)
-    override val viewState: StateFlow<ViewState> get() = _viewState.asStateFlow()
+    private var state = initialState
+
+    private val _viewState: MutableSharedFlow<ViewState> = MutableSharedFlow<ViewState>().also {
+        it.tryEmit(initialState)
+    }
+    override val viewState: SharedFlow<ViewState> get() = _viewState.asSharedFlow()
 
     private val _event = MutableSharedFlow<Event>(replay = 0)
     override val event: SharedFlow<Event> get() = _event.asSharedFlow()
 
     override fun setupStateHandler(scope: CoroutineScope) {
         viewModelScope = scope
+        viewModelScope.launch {
+            _viewState.collect {
+                state = it
+            }
+        }
     }
 
-    override fun currentState(): ViewState = _viewState.value
+    override fun currentState() = state
 
     override fun changeState(state: ViewState) {
-        _viewState.value = state
+        viewModelScope.launch { _viewState.emit(state) }
     }
 
     override fun sendEvent(event: Event) {
@@ -36,7 +42,7 @@ class StateHandlerDelegate<ViewState, Event>(
 }
 
 interface StateHandler<ViewState, Event> {
-    val viewState: StateFlow<ViewState>
+    val viewState: SharedFlow<ViewState>
     val event: SharedFlow<Event>
 
     fun setupStateHandler(scope: CoroutineScope)

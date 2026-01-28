@@ -30,16 +30,32 @@ class AlbumsListViewModelTest {
     fun setUp() {
         MockKAnnotations.init(this)
         Dispatchers.setMain(UnconfinedTestDispatcher())
-        viewModel = AlbumsListViewModel(fetchAlbumsUseCase, UnconfinedTestDispatcher())
     }
 
     @Test
     fun `GIVEN albums WHEN OnInit THEN should update ViewState with albums`() = runTest {
         val albums = listOf(
-            Album(id = "1", albumName = "Album 1", artist = "Artist 1", imageUrl = "url1"),
-            Album(id = "2", albumName = "Album 2", artist = "Artist 2", imageUrl = "url2")
+            Album(
+                id = "1",
+                albumName = "Album 1",
+                artist = "Artist 1",
+                images = listOf("url1"),
+                price = "$9.99",
+                releaseDate = "Jan 23, 2026",
+                genre = "Heavy Metal"
+            ),
+            Album(
+                id = "2",
+                albumName = "Album 2",
+                artist = "Artist 2",
+                images = listOf("url2"),
+                price = "$9.99",
+                releaseDate = "Jan 23, 2026",
+                genre = "Heavy Metal"
+            ),
         )
         coEvery { fetchAlbumsUseCase(any()) } returns flowOf(albums)
+        viewModel = AlbumsListViewModel(fetchAlbumsUseCase, UnconfinedTestDispatcher())
 
         viewModel.viewState.test {
             viewModel.dispatch(AlbumsListViewEvent.OnInit)
@@ -60,6 +76,7 @@ class AlbumsListViewModelTest {
     @Test
     fun `GIVEN error WHEN OnInit THEN should update ViewState with generic error`() = runTest {
         coEvery { fetchAlbumsUseCase(any()) } returns flow { throw Exception("error") }
+        viewModel = AlbumsListViewModel(fetchAlbumsUseCase, UnconfinedTestDispatcher())
 
         viewModel.viewState.test {
             viewModel.dispatch(AlbumsListViewEvent.OnInit)
@@ -80,6 +97,7 @@ class AlbumsListViewModelTest {
     fun `GIVEN IOException WHEN OnInit THEN should update ViewState with network error`() =
         runTest {
             coEvery { fetchAlbumsUseCase(any()) } returns flow { throw IOException("network") }
+            viewModel = AlbumsListViewModel(fetchAlbumsUseCase, UnconfinedTestDispatcher())
 
             viewModel.viewState.test {
                 viewModel.dispatch(AlbumsListViewEvent.OnInit)
@@ -100,14 +118,31 @@ class AlbumsListViewModelTest {
     fun `GIVEN OnItemClick WHEN album is clicked THEN should send NavigateToDetail event`() =
         runTest {
             val albums = listOf(
-                Album(id = "1", albumName = "Album 1", artist = "Artist 1", imageUrl = "url1"),
-                Album(id = "2", albumName = "Album 2", artist = "Artist 2", imageUrl = "url2")
+                Album(
+                    id = "1",
+                    albumName = "Album 1",
+                    artist = "Artist 1",
+                    images = listOf("url1"),
+                    price = "$9.99",
+                    releaseDate = "Jan 23, 2026",
+                    genre = "Heavy Metal"
+                ),
+                Album(
+                    id = "2",
+                    albumName = "Album 2",
+                    artist = "Artist 2",
+                    images = listOf("url2"),
+                    price = "$9.99",
+                    releaseDate = "Jan 23, 2026",
+                    genre = "Heavy Metal"
+                ),
             )
             coEvery { fetchAlbumsUseCase(any()) } returns flowOf(albums)
+            viewModel = AlbumsListViewModel(fetchAlbumsUseCase, UnconfinedTestDispatcher())
 
             viewModel.event.test {
                 viewModel.dispatch(AlbumsListViewEvent.OnInit)
-                viewModel.dispatch(AlbumsListViewEvent.OnItemClick)
+                viewModel.dispatch(AlbumsListViewEvent.OnItemClick(albums[0]))
 
                 val event = awaitItem()
                 assertTrue(event is AlbumsListEvent.NavigateToDetail)
