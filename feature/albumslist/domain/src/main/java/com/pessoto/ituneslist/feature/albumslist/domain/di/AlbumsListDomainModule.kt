@@ -4,6 +4,6 @@ import com.pessoto.ituneslist.feature.albumslist.domain.usecase.FetchAlbumsUseCa
 import com.pessoto.ituneslist.feature.albumslist.domain.usecase.FetchAlbumsUseCaseImpl
 import org.koin.dsl.module
 
-internal val albumsListModule = module {
+internal val albumsListDomainModule = module {
     single<FetchAlbumsUseCase> { FetchAlbumsUseCaseImpl(get()) }
 }

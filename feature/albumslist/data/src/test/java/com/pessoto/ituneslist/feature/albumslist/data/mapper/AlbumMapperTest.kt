@@ -41,13 +41,13 @@ internal class AlbumMapperTest {
         val expected = listOf(
             Album(
                 id = "1",
-                name = "Album 1",
+                albumName = "Album 1",
                 artist = "Artist 1",
                 imageUrl = "https://image1.url"
             ),
             Album(
                 id = "2",
-                name = "Album 2",
+                albumName = "Album 2",
                 artist = "Artist 2",
                 imageUrl = "https://image2.url"
             )
@@ -71,7 +71,7 @@ internal class AlbumMapperTest {
 
         val expected = Album(
             id = "3",
-            name = "Album 3",
+            albumName = "Album 3",
             artist = "Artist 3",
             imageUrl = ""
         )

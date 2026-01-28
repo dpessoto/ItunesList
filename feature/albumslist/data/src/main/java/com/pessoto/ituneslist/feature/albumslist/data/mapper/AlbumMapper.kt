@@ -9,7 +9,7 @@ internal class AlbumMapper : Mapper<AlbumEntryDto, Album> {
     override fun map(source: AlbumEntryDto): Album = with(source) {
         return Album(
             id = id.attributes.value,
-            name = name.value,
+            albumName = name.value,
             artist = artist.value,
             imageUrl = images.firstOrNull()?.url.orEmpty()
         )

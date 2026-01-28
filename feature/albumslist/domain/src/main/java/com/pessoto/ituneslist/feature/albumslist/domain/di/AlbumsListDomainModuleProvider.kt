@@ -6,5 +6,5 @@ import org.koin.core.module.Module
 internal class AlbumsListDomainModuleProvider : ModuleProvider() {
 
     override val modules: List<Module>
-        get() = listOf(albumsListModule)
+        get() = listOf(albumsListDomainModule)
 }
