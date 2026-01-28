@@ -39,6 +39,7 @@ fun ItunesListScaffold(
     modifier: Modifier = Modifier,
     errorArgument: ItunesListErrorArguments? = null,
     loadingState: LoadingState,
+    topBar: @Composable () -> Unit = {},
     loadingContent: @Composable (PaddingValues) -> Unit,
     content: @Composable (PaddingValues) -> Unit,
 ) {
@@ -47,6 +48,7 @@ fun ItunesListScaffold(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .windowInsetsPadding(WindowInsets.systemBars),
+        topBar = topBar,
     ) { innerPadding ->
         when {
             errorArgument != null -> ItunesListError(

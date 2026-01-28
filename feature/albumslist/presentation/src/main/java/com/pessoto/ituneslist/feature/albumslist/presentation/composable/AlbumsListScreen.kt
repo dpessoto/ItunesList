@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
@@ -22,8 +21,9 @@ import androidx.window.core.layout.WindowSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.pessoto.ituneslist.core.presentation.collectAsEventWithLifecycle
 import com.pessoto.ituneslist.feature.albumslist.presentation.viewmodel.AlbumsListEvent
-import com.pessoto.ituneslist.feature.albumslist.presentation.viewmodel.AlbumsListViewEvent.OnInit
 import com.pessoto.ituneslist.feature.albumslist.presentation.viewmodel.AlbumsListViewModel
+import com.pessoto.ituneslist.navigation.route.ItunesListScreen
+import com.pessoto.ituneslist.navigation.route.LocalNavController
 import com.pessoto.ituneslist.resources.R
 import com.pessoto.ituneslist.ui.atom.BoxSkeleton
 import com.pessoto.ituneslist.ui.molecule.AlbumItem
@@ -47,15 +47,24 @@ private const val GRID_CELLS_EXPANDED = 2
 fun AlbumsListScreen(
     viewModel: AlbumsListViewModel = koinViewModel()
 ) {
+    val navHostController = LocalNavController.current
     val viewState = viewModel.viewState.collectAsStateWithLifecycle(viewModel.currentState()).value
     viewModel.event.collectAsEventWithLifecycle {
         when (it) {
-            is AlbumsListEvent.NavigateToDetail -> Unit
+            is AlbumsListEvent.NavigateToDetail -> {
+                navHostController.navigate(
+                    ItunesListScreen.AlbumDetail(
+                        id = it.id,
+                        albumName = it.albumName,
+                        artist = it.artist,
+                        image = it.image,
+                        price = it.price,
+                        releaseDate = it.releaseDate,
+                        genre = it.genre,
+                    )
+                )
+            }
         }
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.dispatch(OnInit)
     }
 
     AlbumsListScreenContent(

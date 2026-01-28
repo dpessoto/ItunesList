@@ -28,8 +28,24 @@ internal class FetchAlbumsUseCaseImplTest {
     fun `Given limit When invoke Then returns Albums`() = runBlocking {
         val limit = 10
         val albums = listOf(
-            Album(id = "1", albumName = "Album 1", artist = "Artist 1", imageUrl = "url1"),
-            Album(id = "2", albumName = "Album 2", artist = "Artist 2", imageUrl = "url2")
+            Album(
+                id = "1",
+                albumName = "Album 1",
+                artist = "Artist 1",
+                images = listOf("url1"),
+                price = "$9.99",
+                releaseDate = "23 Jan 2026",
+                genre = "Heavy Metal"
+            ),
+            Album(
+                id = "2",
+                albumName = "Album 2",
+                artist = "Artist 2",
+                images = listOf("url2"),
+                price = "$9.99",
+                releaseDate = "23 Jan 2026",
+                genre = "Heavy Metal"
+            )
         )
         coEvery { repository.fetchAlbums(limit) } returns flowOf(albums)
 

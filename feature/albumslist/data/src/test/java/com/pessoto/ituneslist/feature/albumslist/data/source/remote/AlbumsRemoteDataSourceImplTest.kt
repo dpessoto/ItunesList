@@ -2,6 +2,8 @@ package com.pessoto.ituneslist.feature.albumslist.data.source.remote
 
 import com.pessoto.ituneslist.core.data.source.remote.DataResult
 import com.pessoto.ituneslist.feature.albumslist.data.model.AlbumEntryDto
+import com.pessoto.ituneslist.feature.albumslist.data.model.CategoryAttributesDto
+import com.pessoto.ituneslist.feature.albumslist.data.model.CategoryDto
 import com.pessoto.ituneslist.feature.albumslist.data.model.FeedDto
 import com.pessoto.ituneslist.feature.albumslist.data.model.FeedResponseDto
 import com.pessoto.ituneslist.feature.albumslist.data.model.IdAttributesDto
@@ -47,7 +49,10 @@ internal class AlbumsRemoteDataSourceImplTest {
                         images = listOf(
                             ImageDto(url = "https://example.com/image1.jpg"),
                             ImageDto(url = "https://example.com/image2.jpg")
-                        )
+                        ),
+                        price = LabelDto("$9.99"),
+                        releaseDate = LabelDto("2026-01-23T00:00:00-07:00"),
+                        category = CategoryDto(CategoryAttributesDto("Heavy Metal")),
                     )
                 )
             )

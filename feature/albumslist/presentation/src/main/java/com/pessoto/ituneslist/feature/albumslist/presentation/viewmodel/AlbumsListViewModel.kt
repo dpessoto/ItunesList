@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pessoto.ituneslist.core.presentation.StateHandler
 import com.pessoto.ituneslist.core.presentation.StateHandlerDelegate
+import com.pessoto.ituneslist.feature.albumslist.domain.entity.Album
 import com.pessoto.ituneslist.feature.albumslist.domain.usecase.FetchAlbumsUseCase
 import com.pessoto.ituneslist.feature.albumslist.presentation.viewmodel.AlbumsListViewEvent.OnInit
 import com.pessoto.ituneslist.feature.albumslist.presentation.viewmodel.AlbumsListViewEvent.OnItemClick
@@ -26,7 +27,7 @@ internal const val ALBUM_LIMIT = 100
 
 sealed class AlbumsListViewEvent {
     data object OnInit : AlbumsListViewEvent()
-    data object OnItemClick : AlbumsListViewEvent()
+    data class OnItemClick(val album: Album) : AlbumsListViewEvent()
 }
 
 data class AlbumsListViewState(
@@ -36,7 +37,15 @@ data class AlbumsListViewState(
 )
 
 sealed class AlbumsListEvent {
-    data object NavigateToDetail : AlbumsListEvent()
+    data class NavigateToDetail(
+        val id: String,
+        val albumName: String,
+        val artist: String,
+        val image: String,
+        val price: String,
+        val releaseDate: String,
+        val genre: String,
+    ) : AlbumsListEvent()
 }
 
 class AlbumsListViewModel(
@@ -49,6 +58,7 @@ class AlbumsListViewModel(
 
     init {
         setupStateHandler(viewModelScope)
+        dispatch(OnInit)
     }
 
     fun dispatch(event: AlbumsListViewEvent) {
@@ -57,7 +67,17 @@ class AlbumsListViewModel(
                 fetchAlbums()
             }
             is OnItemClick -> {
-                sendEvent(AlbumsListEvent.NavigateToDetail)
+                sendEvent(
+                    AlbumsListEvent.NavigateToDetail(
+                        event.album.id,
+                        event.album.albumName,
+                        event.album.artist,
+                        event.album.images.last(),
+                        event.album.price,
+                        event.album.releaseDate,
+                        event.album.genre,
+                    )
+                )
             }
         }
     }
@@ -67,7 +87,7 @@ class AlbumsListViewModel(
             fetchAlbumsUseCase(ALBUM_LIMIT)
                 .onStart {
                     changeState(
-                        currentState().copy(
+                        AlbumsListViewState(
                             loadingState = LoadingState.Loading,
                             errorArgument = null
                         )
@@ -80,9 +100,9 @@ class AlbumsListViewModel(
                             id = album.id,
                             albumName = TextContentType.Text(album.albumName),
                             artist = TextContentType.Text(album.artist),
-                            albumImageUrl = album.imageUrl,
+                            albumImageUrl = album.images.first(),
                             onClick = {
-                                dispatch(OnItemClick)
+                                dispatch(OnItemClick(album))
                             },
                         )
                     }.toImmutableList()
